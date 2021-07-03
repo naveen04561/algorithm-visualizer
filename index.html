@@ -17,9 +17,21 @@
                 <button type="button" id="bfs" class="btn btn-primary" onclick="Bfs()">Start BFS</button>
                 <button type="button" id="dfs" class="btn btn-secondary" onclick="Dfs()">Start DFS</button>
                 <button type="button" class="btn btn-danger" onclick="clean()" >Clean the Grid</button>
-                
             </div>
-            <br><br>
+            <table class="info">
+                <tr>
+                  <td><div style="border: 2px solid red; height: 20px;width: 20px; background-color: red;"></div></td>
+                  <td> Source </td>
+                  <td><div style="border: 2px solid green; height: 20px;width: 20px; background-color: green;"></div></td>
+                  <td> Destination </td>
+                  <td><div style="border: 2px solid grey; height: 20px;width: 20px; background-color: grey;"></div></td>
+                  <td>Obstacle</td>
+                  <td><div style="border: 2px solid blue; height: 20px;width: 20px; background-color: blue;"></div></td>
+                  <td>Path</td>
+                  <td><div style="border: 2px solid yellow; height: 20px;width: 20px; background-color: yellow;"></div></td>
+                  <td>Shortest Path</td>
+                </tr>
+              </table>
             <table class="table table-bordered" id="table">
             </table>
         </div>

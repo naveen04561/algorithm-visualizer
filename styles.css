@@ -7,3 +7,8 @@ body {
     border-color: rgb(49, 36, 36);
 
 }
+
+.info {
+    border-spacing: 10px;
+    border-collapse: separate;
+}

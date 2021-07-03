@@ -18,11 +18,23 @@ for(let i=0;i<20;i++)
     grid.push(t);
 }
 
-start = [0,0]
-goal = [15,14]
+start = [Math.floor(Math.random()*20),Math.floor(Math.random()*40)];
+goal = [Math.floor(Math.random()*20)+1,Math.floor(Math.random()*40)+1];
 
 document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "red";
 document.getElementById(goal[0]+"-"+goal[1]).style.backgroundColor = "green";
+
+let m=0,n=0;
+for(var i=0;i<100;i++)
+{
+    m = Math.floor(Math.random()*20);
+    n = Math.floor(Math.random()*40);
+    if(m!== goal[0] &&m!==start[0] && n!==goal[1] && n!=start[1])
+    {
+        document.getElementById(m+"-"+n).style.backgroundColor = "grey";
+        grid[m][n] = 1;
+    }
+}
 
 let count = 0, dragged, dragStart;
 
@@ -63,6 +75,7 @@ document.addEventListener("dragend", function(event) {
 
 document.addEventListener("dragover", function(event) {
     event.preventDefault();
+    event.target.style.backgroundColor="";
 }, false);
 
 document.addEventListener("dragenter", function(event) {
@@ -94,11 +107,11 @@ let dRow = [-1, 0, 1, 0 ];
 let dCol = [0, 1, 0, -1 ];
 
 // Declare the visited array
-let vis = Array.from(Array(ROW), ()=> Array(COL).fill(false));
+// let vis = Array.from(Array(ROW), ()=> Array(COL).fill(false));
  
 // Function to check if a cell
 // is be visited or not
-function isValid(vis, row, col)
+function isValid(row, col)
 {
     // If cell lies out of bounds
     if (row < 0 || col < 0
@@ -106,7 +119,7 @@ function isValid(vis, row, col)
         return false;
 
     // If cell is already visited
-    if (vis[row][col])
+    if (grid[row][col] == 1)
         return false;
  
     // Otherwise
@@ -152,7 +165,6 @@ function getSG()
                 start = [];
                 start.push(i);
                 start.push(j);
-                console.log(start);
             }
             else if(row[i].cells[j].style.backgroundColor == "green")
             {
@@ -178,6 +190,7 @@ const Bfs = async() =>
     }
     else
     {
+        grid[start[0]][start[1]] = 1;
         openList.push({'curr':start, 'parent':[-1,-1]});
     }
     while(openList.length != 0)
@@ -194,7 +207,7 @@ const Bfs = async() =>
             let adjx = curr.curr[0] + dRow[i];
             let adjy = curr.curr[1] + dCol[i];
  
-            if (isValid(vis, adjx, adjy)) 
+            if (isValid(adjx, adjy)) 
             {
                 if(adjx == goal[0] && adjy == goal[1])
                 {
@@ -203,7 +216,7 @@ const Bfs = async() =>
                     return;
                 }
                 openList.push({'curr': [adjx, adjy],'parent':[curr.curr[0],curr.curr[1]]});
-                vis[adjx][adjy] = true;
+                grid[adjx][adjy] = 1;
             }
         }
     }
@@ -223,6 +236,7 @@ const Dfs = async() =>
     }
     else
     {
+        grid[start[0]][start[1]] = 1;
         openList.push({'curr':start, 'parent':[-1,-1]});
     }
     while(openList.length != 0)
@@ -239,7 +253,7 @@ const Dfs = async() =>
             let adjx = curr.curr[0] + dRow[i];
             let adjy = curr.curr[1] + dCol[i];
  
-            if (isValid(vis, adjx, adjy)) 
+            if (isValid(adjx, adjy)) 
             {
                 if(adjx == goal[0] && adjy == goal[1])
                 {
@@ -248,7 +262,7 @@ const Dfs = async() =>
                     return;
                 }
                 openList.push({'curr': [adjx, adjy],'parent':[curr.curr[0],curr.curr[1]]});
-                vis[adjx][adjy] = true;
+                grid[adjx][adjy] = 1;
             }
         }
 
