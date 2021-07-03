@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            Algorithm Visualizer
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="container" style="text-align: center;">
+            <br>
+            <h3> Algorithm Visualizer </h3>
+            <br>
+            <div>
+                <button type="button" id="bfs" class="btn btn-primary" onclick="Bfs()">Start BFS</button>
+                <button type="button" id="dfs" class="btn btn-secondary" onclick="Dfs()">Start DFS</button>
+                <button type="button" class="btn btn-danger" onclick="clean()" >Clean the Grid</button>
+                
+            </div>
+            <br><br>
+            <table class="table table-bordered" id="table">
+            </table>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
