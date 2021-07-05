@@ -19,7 +19,7 @@ for(let i=0;i<20;i++)
 }
 
 start = [Math.floor(Math.random()*20),Math.floor(Math.random()*40)];
-goal = [Math.floor(Math.random()*20)+1,Math.floor(Math.random()*40)+1];
+goal = [Math.floor(Math.random()*20),Math.floor(Math.random()*40)];
 
 document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "red";
 document.getElementById(goal[0]+"-"+goal[1]).style.backgroundColor = "green";
@@ -37,56 +37,35 @@ for(var i=0;i<100;i++)
     }
 }
 
-let count = 0, dragged, dragStart;
-
-// function changeStyle(k,j)
-// {
-//     let div = document.getElementById(k+"-"+j);
-//     if(count == 1)
-//     {
-//         div.style.backgroundColor = "red";
-//     }
-//     else if (count == 2)
-//     {
-//         div.style.backgroundColor = "green";
-//     }
-// } 
-// let row = document.getElementById('table').rows;
-// for (let i = 0; i < row.length; i++) {
-//     for (let j = 0; j < row[i].cells.length; j++ ) {
-//         console.log(row[i].cells[j].innerHTML);
-//         row[i].cells[j].addEventListener('click', function(){
-//             console.log('click');
-//             count += 1;
-//             changeStyle(i,j);
-//         });
-//     }
-// }   
+let dragSD;
 
 document.addEventListener("drag", function(event) {}, false);
 document.addEventListener("dragstart", function(event) {
     if (event.target.className == "dropzone")
     {
-        dragged = event.target;
-        dragStart = dragged.style.backgroundColor;
+        dragSD = event.target.style.backgroundColor;
         event.target.style.backgroundColor="";
     }
+    // else if(event.target.className == "obstacle")
+    // {
+
+    // }
   }, false);
 
 document.addEventListener("dragend", function(event) {
     if (event.target.className == "dropzone")
-    event.target.style.opacity = "";
+        event.target.style.opacity = "";
 }, false);
 
 document.addEventListener("dragover", function(event) {
     event.preventDefault();
     if (event.target.className == "dropzone")
-    event.target.style.backgroundColor = dragStart;
+        event.target.style.backgroundColor = dragSD;
 }, false);
 
 document.addEventListener("dragenter", function(event) {
     if (event.target.className == "dropzone") {
-        event.target.style.background = dragStart;
+        event.target.style.background = dragSD;
     }
 }, false);
 
@@ -100,8 +79,7 @@ document.addEventListener("dragleave", function(event) {
 document.addEventListener("drop", function(event) {
     event.preventDefault();
     if (event.target.className == "dropzone") {
-        console.log(dragged);
-        event.target.style.background = dragStart;
+        event.target.style.background = dragSD;
     }
 }, false);
 
@@ -112,11 +90,8 @@ let COL = 40;
 let dRow = [-1, 0, 1, 0,   -1, 1, -1, 1];
 let dCol = [ 0, 1, 0, -1,   1, 1, -1,-1];
 
-// Declare the visited array
 // let vis = Array.from(Array(ROW), ()=> Array(COL).fill(false));
- 
-// Function to check if a cell
-// is be visited or not
+
 function isValid(row, col)
 {
     // If cell lies out of bounds
@@ -146,7 +121,7 @@ const printPath = async (c) =>
     let x = c[0].parent[0];
     let y = c[0].parent[1];
     await sleep(10);
-    document.getElementById(goal[0]+"-"+goal[1]).style.backgroundColor = "purple";
+    document.getElementById(goal[0]+"-"+goal[1]).style.backgroundColor = "green";
     for(var i=0;i<c.length;i++)
     {
         if(c[i].curr[0] == x && c[i].curr[1] == y)
@@ -158,7 +133,7 @@ const printPath = async (c) =>
         }
     }
     await sleep(10);
-    document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "purple";
+    document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "red";
 }
 
 function getSG()
@@ -168,15 +143,11 @@ function getSG()
         for (let j = 0; j < row[i].cells.length; j++ ) {
             if(row[i].cells[j].style.backgroundColor == "red")
             {
-                start = [];
-                start.push(i);
-                start.push(j);
+                start = [i,j];
             }
             else if(row[i].cells[j].style.backgroundColor == "green")
             {
-                goal = [];
-                goal.push(i);
-                goal.push(j);
+                goal = [i,j];
             }
         }
     }   
@@ -191,7 +162,6 @@ const Bfs = async() =>
     if(start[0] == goal[0] && start[1] == goal[1])
     {
         await sleep(10);
-        document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "blue";
         return ;
     }
     else
@@ -205,6 +175,7 @@ const Bfs = async() =>
         openList.shift();
 
         await sleep(10);
+        if(curr.curr != start)
         document.getElementById(curr.curr[0]+"-"+curr.curr[1]).style.backgroundColor = "blue";
         closedList.push(curr);
 
@@ -237,7 +208,6 @@ const Dfs = async() =>
     if(start[0] == goal[0] && start[1] == goal[1])
     {
         await sleep(10);
-        document.getElementById(start[0]+"-"+start[1]).style.backgroundColor = "blue";
         return ;
     }
     else
@@ -251,6 +221,8 @@ const Dfs = async() =>
         openList.pop();
 
         await sleep(10);
+
+        if(curr.curr != start)
         document.getElementById(curr.curr[0]+"-"+curr.curr[1]).style.backgroundColor = "blue";
         closedList.push(curr);
 
