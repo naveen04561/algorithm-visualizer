@@ -32,6 +32,7 @@ for(var i=0;i<100;i++)
     if(m!== goal[0] &&m!==start[0] && n!==goal[1] && n!=start[1])
     {
         document.getElementById(m+"-"+n).style.backgroundColor = "grey";
+        document.getElementById(m+"-"+n).className = "obstacle";
         grid[m][n] = 1;
     }
 }
@@ -64,18 +65,23 @@ let count = 0, dragged, dragStart;
 
 document.addEventListener("drag", function(event) {}, false);
 document.addEventListener("dragstart", function(event) {
-    dragged = event.target;
-    dragStart = dragged.style.backgroundColor;
-    event.target.style.backgroundColor="";
+    if (event.target.className == "dropzone")
+    {
+        dragged = event.target;
+        dragStart = dragged.style.backgroundColor;
+        event.target.style.backgroundColor="";
+    }
   }, false);
 
 document.addEventListener("dragend", function(event) {
+    if (event.target.className == "dropzone")
     event.target.style.opacity = "";
 }, false);
 
 document.addEventListener("dragover", function(event) {
     event.preventDefault();
-    event.target.style.backgroundColor="";
+    if (event.target.className == "dropzone")
+    event.target.style.backgroundColor = dragStart;
 }, false);
 
 document.addEventListener("dragenter", function(event) {
@@ -103,8 +109,8 @@ document.addEventListener("drop", function(event) {
 let ROW = 20;
 let COL = 40;
 // Direction vectors
-let dRow = [-1, 0, 1, 0 ];
-let dCol = [0, 1, 0, -1 ];
+let dRow = [-1, 0, 1, 0,   -1, 1, -1, 1];
+let dCol = [ 0, 1, 0, -1,   1, 1, -1,-1];
 
 // Declare the visited array
 // let vis = Array.from(Array(ROW), ()=> Array(COL).fill(false));
