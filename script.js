@@ -39,17 +39,13 @@ for(var i=0;i<100;i++)
 
 let dragSD;
 
-document.addEventListener("drag", function(event) {}, false);
+// document.addEventListener("drag", function(event) {}, false);
 document.addEventListener("dragstart", function(event) {
-    if (event.target.className == "dropzone")
+    if(event.target.className == "dropzone")
     {
         dragSD = event.target.style.backgroundColor;
         event.target.style.backgroundColor="";
     }
-    // else if(event.target.className == "obstacle")
-    // {
-
-    // }
   }, false);
 
 document.addEventListener("dragend", function(event) {
@@ -60,7 +56,11 @@ document.addEventListener("dragend", function(event) {
 document.addEventListener("dragover", function(event) {
     event.preventDefault();
     if (event.target.className == "dropzone")
+    {
         event.target.style.backgroundColor = dragSD;
+        reset();
+        // eval(document.getElementById("fun").getAttribute("value") + "()");
+    }
 }, false);
 
 document.addEventListener("dragenter", function(event) {
@@ -153,8 +153,26 @@ function getSG()
     }   
 }
 
-const Bfs = async() =>
+function reset()
 {
+    for(let i=0;i<20;i++)
+    {
+        for(let j=0;j<40;j++)
+        {
+            if(document.getElementById(i+"-"+j).className != "obstacle")
+                grid[i][j] = 0;
+            if(document.getElementById(i+"-"+j).style.backgroundColor == "yellow")
+                document.getElementById(i+"-"+j).style.backgroundColor = "";
+            if(document.getElementById(i+"-"+j).style.backgroundColor == "blue")
+                document.getElementById(i+"-"+j).style.backgroundColor = "";
+        }
+    }
+}
+
+const Bfs = async () =>
+{
+    reset();
+    document.getElementById("fun").setAttribute("value","Bfs");
     getSG();
     openList = [];
     closedList = [];
@@ -199,8 +217,10 @@ const Bfs = async() =>
     }
 }
 
-const Dfs = async() =>
+const Dfs = async () =>
 {
+    reset();
+    document.getElementById("fun").setAttribute("value","Dfs");
     getSG();
     openList = [];
     closedList = [];
@@ -249,8 +269,9 @@ const Dfs = async() =>
 
 
 // Clear the Grid
-
 function clean()
 {
     window.location.reload();
 }
+
+
